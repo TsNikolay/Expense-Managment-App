@@ -2,8 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
+const dbConnect = require("./config/dbConnect");
 // Файл конфігу dot env;
 dotenv.config();
+
+//База даних
+dbConnect();
 
 const app = express();
 
