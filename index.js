@@ -17,12 +17,10 @@ app.use(express.json());
 app.use(cors());
 
 //Маршрутизація
-app.get("/", (req, res) => {
-  res.send("<h1>Home page</h1>");
-});
+app.use("/api/v1/users", require("./routes/userRoute"));
 
 //Порт
-const PORT = 3000;
+const PORT = 8080;
 
 //Прослуховування серверу
 app.listen(PORT, () => {
