@@ -2,9 +2,10 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="spinner-grow" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </div>
+    <button class="btn btn-primary" type="button" disabled>
+      <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+      <span role="status">Loading...</span>
+    </button>
   );
 };
 
