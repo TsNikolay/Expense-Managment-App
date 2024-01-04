@@ -3,6 +3,7 @@ import styles from "./Registration.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../components/UI/Loading";
+import { message } from "antd";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -20,13 +21,12 @@ const Registration = () => {
     try {
       setLoading(true);
       await axios.post("/users/registration", formData);
-      alert("Registration was successful");
+      message.success("Registration was successful");
       setLoading(false);
       navigate("/login");
     } catch (exception) {
       setLoading(false);
-      console.error("Error during registration:", exception);
-      alert(exception);
+      message.error(exception);
     }
   };
 

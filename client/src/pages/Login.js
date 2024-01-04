@@ -3,6 +3,7 @@ import styles from "./Registration.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../components/UI/Loading";
+import { message } from "antd";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -21,12 +22,15 @@ const Login = () => {
       setLoading(true);
       const { data } = await axios.post("/users/login", formData);
       setLoading(false);
-      alert("Login was successful");
-      localStorage.setItem("user", JSON.stringify({ ...data.user, password: "" }));
+      message.success("Login was successful");
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ ...data.user, password: "" }),
+      );
       navigate("/");
     } catch (exception) {
       setLoading(false);
-      alert(exception);
+      message.error(exception);
     }
   };
 
