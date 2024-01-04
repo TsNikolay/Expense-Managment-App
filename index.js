@@ -18,6 +18,7 @@ app.use(cors());
 
 //Маршрутизація
 app.use("/api/v1/users", require("./routes/userRoute"));
+app.use("/api/v1/transactions", require("./routes/transactionRoute"));
 
 //Порт
 const PORT = 8080 || process.env.PORT;
