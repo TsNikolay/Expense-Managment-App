@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Registration.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -19,16 +19,20 @@ const Login = () => {
       const { data } = await axios.post("/users/login", formData);
       setLoading(false);
       alert("Login was successful");
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ ...data.user, password: "" }),
-      );
+      localStorage.setItem("user", JSON.stringify({ ...data.user, password: "" }));
       navigate("/");
     } catch (exception) {
       setLoading(false);
       alert(exception);
     }
   };
+
+  //Щоб залогінений користувач не міг знову логінитись
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <div className={styles.container}>
