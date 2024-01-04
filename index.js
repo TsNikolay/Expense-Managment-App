@@ -20,7 +20,7 @@ app.use(cors());
 app.use("/api/v1/users", require("./routes/userRoute"));
 
 //Порт
-const PORT = 8080;
+const PORT = 8080 || process.env.PORT;
 
 //Прослуховування серверу
 app.listen(PORT, () => {

@@ -1,7 +1,7 @@
 const express = require("express");
 const {
   loginController,
-  registerController,
+  registrationController,
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 //POST || Login
 router.post("/login", loginController);
 
-//POST || Register
-router.post("/register", registerController);
+//POST || Registration
+router.post("/registration", registrationController);
 
 module.exports = router;

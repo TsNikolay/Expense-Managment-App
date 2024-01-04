@@ -1,22 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Registration.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Loading from "../components/UI/Loading";
 
 const Registration = () => {
-  const submitHandler = (event) => {
-    event.preventDefault();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
+  const submitHandler = async (event) => {
+    event.preventDefault();
     const formData = {
       name: event.target.elements.name.value,
       email: event.target.elements.email.value,
       password: event.target.elements.password.value,
     };
-    console.log(formData);
+
+    try {
+      setLoading(true);
+      await axios.post("/users/registration", formData);
+      alert("Registration was successful");
+      setLoading(false);
+      navigate("/login");
+    } catch (exception) {
+      setLoading(false);
+      console.error("Error during registration:", exception);
+      alert(exception);
+    }
   };
 
   return (
     <div className={styles.container}>
       <h1>Registration page</h1>
+      {loading && <Loading />}
       <form onSubmit={submitHandler}>
         <div className="mb-3">
           <label htmlFor="exampleInputName1" className="form-label">

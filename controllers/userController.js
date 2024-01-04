@@ -18,7 +18,7 @@ const loginController = async (req, res) => {
   }
 };
 
-const registerController = async (req, res) => {
+const registrationController = async (req, res) => {
   try {
     let user = new userModel(req.body);
     await user.save();
@@ -34,4 +34,4 @@ const registerController = async (req, res) => {
   }
 };
 
-module.exports = { loginController, registerController };
+module.exports = { loginController, registrationController };
