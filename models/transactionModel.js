@@ -24,6 +24,10 @@ const transactionSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    key: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
