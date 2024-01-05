@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Template from "../components/Tamplate/Template";
+import Charts from "../components/Tamplate/Charts";
 import styles from "./Homepage.module.css";
 import { Modal, message, Table, DatePicker } from "antd";
 import axios from "axios";
 import Loading from "../components/UI/Loading";
 import moment from "moment";
+import { AreaChartOutlined, UnorderedListOutlined } from "@ant-design/icons";
+
 const { RangePicker } = DatePicker;
 
 const Homepage = () => {
@@ -14,7 +17,7 @@ const Homepage = () => {
   const [dateRange, setDateRange] = useState("365");
   const [chosenDate, setChosenDate] = useState([]);
   const [type, setType] = useState("all");
-
+  const [dataVisualization, setDataVisualization] = useState("table");
   useEffect(() => {
     const getAllTransactions = async () => {
       try {
@@ -145,13 +148,38 @@ const Homepage = () => {
           </select>
         </div>
         <div>
+          <h5>Select transaction type</h5>
+          <div className={styles.iconsContainer}>
+            <UnorderedListOutlined
+              className={`mx-2 ${
+                dataVisualization === "table" ? styles.activeIcon : styles.inactiveIcon
+              }`}
+              onClick={() => {
+                setDataVisualization("table");
+              }}
+            />
+            <AreaChartOutlined
+              className={`mx-2 ${
+                dataVisualization === "charts" ? styles.activeIcon : styles.inactiveIcon
+              }`}
+              onClick={() => {
+                setDataVisualization("charts");
+              }}
+            />
+          </div>
+        </div>
+        <div>
           <button className="btn btn-primary" onClick={() => setModalVisibility(true)}>
             Add new
           </button>
         </div>
       </div>
       <div>
-        <Table columns={columns} dataSource={allTransactions} />
+        {dataVisualization === "table" ? (
+          <Table columns={columns} dataSource={allTransactions} />
+        ) : (
+          <Charts data={allTransactions} />
+        )}
       </div>
       <Modal
         title="Add transaction"

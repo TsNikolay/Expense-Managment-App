@@ -1,7 +1,28 @@
-.filters{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px 20px;
-    box-shadow: 0 0 3px gray;
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  box-shadow: 0 0 3px gray;
+}
+
+.anticon svg {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.activeIcon {
+  color: rgb(92, 22, 221);
+}
+
+.inactiveIcon {
+  color: gray;
+}
+
+.iconsContainer {
+  display: flex;
+  justify-content: center;
+  border: 1px solid rgb(70, 70, 70);
+  border-radius: 5px;
+  padding: 7px;
 }
