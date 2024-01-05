@@ -11,9 +11,9 @@ const Homepage = () => {
   const [modalVisibility, setModalVisibility] = useState(false);
   const [loading, setLoading] = useState(false);
   const [allTransactions, setAllTransactions] = useState([]);
-  const [dateRange, setDateRange] = useState("7");
+  const [dateRange, setDateRange] = useState("365");
   const [chosenDate, setChosenDate] = useState([]);
-  const [type, setType] = useState("any");
+  const [type, setType] = useState("all");
 
   useEffect(() => {
     const getAllTransactions = async () => {
@@ -23,6 +23,8 @@ const Homepage = () => {
         const res = await axios.post("/transactions/transactions-get-all", {
           userid: user._id,
           dateRange,
+          chosenDate,
+          type,
         });
         setLoading(false);
         const transactionsWithIndex = res.data.map((transaction, index) => ({
@@ -36,7 +38,7 @@ const Homepage = () => {
     };
 
     getAllTransactions();
-  }, [dateRange, chosenDate]);
+  }, [dateRange, chosenDate, type]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -46,7 +48,7 @@ const Homepage = () => {
       description: event.target.elements.description.value,
       category: event.target.elements.category.value,
       amount: event.target.elements.amount.value,
-      transactionType: event.target.elements.transactionType.value,
+      type: event.target.elements.type.value,
     };
 
     try {
@@ -104,10 +106,9 @@ const Homepage = () => {
 
   return (
     <Template>
-      {loading && <Loading />}
       <div className={styles.filters}>
         <div>
-          <h3>Select range of date</h3>
+          <h5>Select range of date</h5>
           <select
             className="form-select"
             id="exampleInputDateRange"
@@ -126,6 +127,22 @@ const Homepage = () => {
           {dateRange === "custom" && (
             <RangePicker value={chosenDate} onChange={(dates) => setChosenDate(dates)} />
           )}
+        </div>
+        <div>
+          <h5>Select transaction type</h5>
+          <select
+            className="form-select"
+            id="exampleInputType"
+            name="type"
+            aria-label="Default select example"
+            value={type}
+            onChange={(event) => setType(event.target.value)}
+          >
+            <option defaultValue="select"></option>
+            <option value="all">All</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
         </div>
         <div>
           <button className="btn btn-primary" onClick={() => setModalVisibility(true)}>
@@ -150,7 +167,7 @@ const Homepage = () => {
             <select
               className="form-select"
               id="exampleInputTransactionType"
-              name="transactionType"
+              name="type"
               aria-label="Default select example"
             >
               <option defaultValue="select"></option>
@@ -212,6 +229,7 @@ const Homepage = () => {
           </button>
         </form>
       </Modal>
+      {loading && <Loading />}
     </Template>
   );
 };
