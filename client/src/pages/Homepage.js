@@ -1,18 +1,42 @@
 import React, { useState, useEffect } from "react";
 import Template from "../components/Tamplate/Template";
 import styles from "./Homepage.module.css";
-import { Modal, message, Table } from "antd";
+import { Modal, message, Table, DatePicker } from "antd";
 import axios from "axios";
 import Loading from "../components/UI/Loading";
+import moment from "moment";
+const { RangePicker } = DatePicker;
 
 const Homepage = () => {
   const [modalVisibility, setModalVisibility] = useState(false);
   const [loading, setLoading] = useState(false);
   const [allTransactions, setAllTransactions] = useState([]);
+  const [dateRange, setDateRange] = useState("7");
+  const [chosenDate, setChosenDate] = useState([]);
+  const [type, setType] = useState("any");
 
   useEffect(() => {
+    const getAllTransactions = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        setLoading(true);
+        const res = await axios.post("/transactions/transactions-get-all", {
+          userid: user._id,
+          dateRange,
+        });
+        setLoading(false);
+        const transactionsWithIndex = res.data.map((transaction, index) => ({
+          ...transaction,
+          id: index + 1,
+        }));
+        setAllTransactions(transactionsWithIndex);
+      } catch (exception) {
+        setLoading(false);
+      }
+    };
+
     getAllTransactions();
-  }, []);
+  }, [dateRange, chosenDate]);
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -44,24 +68,6 @@ const Homepage = () => {
     }
   };
 
-  const getAllTransactions = async () => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user"));
-      setLoading(true);
-      const res = await axios.post("/transactions/transactions-get-all", { userid: user._id });
-      setLoading(false);
-      const transactionsWithIndex = res.data.map((transaction, index) => ({
-        ...transaction,
-        id: index + 1,
-        date: new Date(transaction.date).toLocaleDateString("en-GB"),
-      }));
-      setAllTransactions(transactionsWithIndex);
-    } catch (exception) {
-      setLoading(false);
-      message.error("An error occurred during loading data");
-    }
-  };
-
   // Таблиця транзакцій
   const columns = [
     {
@@ -73,6 +79,7 @@ const Homepage = () => {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      render: (text) => <span>{moment(text).format("DD.MM.YYYY")}</span>,
     },
     {
       title: "Description",
@@ -99,7 +106,27 @@ const Homepage = () => {
     <Template>
       {loading && <Loading />}
       <div className={styles.filters}>
-        <div>filters</div>
+        <div>
+          <h3>Select range of date</h3>
+          <select
+            className="form-select"
+            id="exampleInputDateRange"
+            name="dateRange"
+            aria-label="Default select example"
+            value={dateRange}
+            onChange={(event) => setDateRange(event.target.value)}
+          >
+            <option defaultValue="select"></option>
+            <option value="7">Last 1 week</option>
+            <option value="30">Last 1 month</option>
+            <option value="90">Last 3 months</option>
+            <option value="365">Last 1 year</option>
+            <option value="custom">Custom</option>
+          </select>
+          {dateRange === "custom" && (
+            <RangePicker value={chosenDate} onChange={(dates) => setChosenDate(dates)} />
+          )}
+        </div>
         <div>
           <button className="btn btn-primary" onClick={() => setModalVisibility(true)}>
             Add new
