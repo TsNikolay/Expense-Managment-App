@@ -26,7 +26,7 @@ const Registration = () => {
       navigate("/login");
     } catch (exception) {
       setLoading(false);
-      message.error(exception);
+      message.error("Please, fill in all fields and use unique email");
     }
   };
 

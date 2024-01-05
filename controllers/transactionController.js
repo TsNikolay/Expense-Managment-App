@@ -2,14 +2,14 @@ const transactionsModel = require("../models/transactionModel");
 
 const getAllTransactions = async (req, res) => {
   try {
-    const transactions = await transactionsModel.find({});
+    const transactions = await transactionsModel.find({ userid: req.body.userid });
     res.status(200).json(transactions);
   } catch (exception) {
     res.status(500).json(exception);
   }
 };
 
-const addTransaction = async (res, req) => {
+const addTransaction = async (req, res) => {
   try {
     const transaction = new transactionsModel(req.body);
     await transaction.save();

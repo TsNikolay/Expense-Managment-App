@@ -29,8 +29,8 @@ const Login = () => {
       );
       navigate("/");
     } catch (exception) {
+      message.error("Email or password is wrong");
       setLoading(false);
-      message.error(exception);
     }
   };
 

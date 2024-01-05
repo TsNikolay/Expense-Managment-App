@@ -2,15 +2,16 @@ const mongoose = require("mongoose");
 
 const transactionSchema = new mongoose.Schema(
   {
+    userid: {
+      type: String,
+      required: true,
+    },
     date: {
       type: Date,
       required: true,
       default: Date.now,
     },
-    number: {
-      type: String,
-      required: true,
-    },
+
     description: {
       type: String,
       required: true,
