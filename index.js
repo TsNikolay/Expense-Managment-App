@@ -8,6 +8,8 @@ const path = require("path");
 // Файл конфигурации dot env;
 dotenv.config();
 
+connectDb();
+
 const app = express();
 
 // Мидлвари
@@ -28,9 +30,7 @@ app.get("*", function (req, res) {
 // Порт
 const PORT = 8080 || process.env.PORT;
 
-// Подключение к базе данных и прослушивание сервера
-dbConnect().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running successfully on ${PORT} port`);
-  });
+//listen server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
