@@ -93,6 +93,18 @@ const Homepage = () => {
     }
   };
 
+  const deleteHandler = async (record) => {
+    try {
+      setLoading(true);
+      await axios.post("/transactions/transaction-delete", { transactionId: record._id });
+      setLoading(false);
+      message.success("Transaction was deleted successfully");
+    } catch (error) {
+      setLoading(false);
+      message.error("An error occurred during deleting");
+    }
+  };
+
   // Таблиця транзакцій
   const columns = [
     {
@@ -131,7 +143,12 @@ const Homepage = () => {
               setModalVisibility(true);
             }}
           />
-          <DeleteOutlined className="mx-2" />
+          <DeleteOutlined
+            className="mx-2"
+            onClick={() => {
+              deleteHandler(record);
+            }}
+          />
         </div>
       ),
       key: "actions",
