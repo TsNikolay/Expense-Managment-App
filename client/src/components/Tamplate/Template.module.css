@@ -1,3 +1,4 @@
-.content{
-    height: 70vh;
+.content {
+  min-height: 600px;
+  height: auto;
 }
