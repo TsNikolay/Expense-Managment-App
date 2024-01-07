@@ -31,7 +31,7 @@ Expense Manager is a web application for financial management. With this applica
    cd client
    npm install
 
-   cd server
+   cd ..
    npm install
    ```
 
@@ -41,13 +41,9 @@ Ensure MongoDB is installed and running on your computer.
 Create a .env file in the server folder and specify your database connection parameters:
 env
 ```
-MONGODB_URI=your_connection_string
+MONGODB_URL= <your_connection_string>
 ```
 3. **Run the Application:**
 ```
-# Run the client side (in the client folder)
-npm start
-
-# Run the server side (in the server folder)
-npm start
+npm run dev
 ```
